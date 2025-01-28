@@ -26,7 +26,7 @@ if (empty($otp)) {
     if ($result->num_rows > 0) {
         // Fetch user and verify password
         $user = $result->fetch_assoc();
-      
+      //print_r($user);exit;
         if (password_verify($password, $user['password'])) {
             $_SESSION['name'] = $user['firstname'];
             $response['success'] = true;

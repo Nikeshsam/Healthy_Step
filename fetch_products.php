@@ -1,5 +1,5 @@
 <?php
-include 'DbConnect.php'; // Include your database connection file
+include 'DbConnect.php'; // database connection file
 
 if (isset($_POST['category_id'])) {
     $categoryId = intval($_POST['category_id']);

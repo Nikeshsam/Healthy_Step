@@ -17,6 +17,20 @@ if ($result->num_rows > 0) {
     }
 }
 
+// Query to fetch testimonials with user details
+$testimonial = "
+    SELECT 
+        u.firstname, 
+        u.lastname, 
+        t.content, 
+        t.image, 
+        t.created_at 
+    FROM testimonials t
+    INNER JOIN users u ON t.user_id = u.id
+    ORDER BY t.created_at DESC
+";
+$result = $conn->query($testimonial);
+
 
 ?>
 
@@ -1537,77 +1551,38 @@ if ($result->num_rows > 0) {
         <div class="row">
             <div class="main-title pt-2">
                 <i>Testimonials</i>
-                <h3>We provide value of our clients</h3>
+                <h3>We provide value to our clients</h3>
             </div>
             <div class="testimonials-slide">
-                <div>
-                    <div class="testimonials">
-                        <div class="testi-name-img">
-                            <div class="testi-name">Stella Larson</div>
-                            <div class="testi-img">
-                                <img class="product-img" src="assets/images/test-img.jpg" alt="">
+                <?php if ($result->num_rows > 0): ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <div>
+                            <div class="testimonials">
+                                <div class="testi-name-img">
+                                    <div class="testi-name">
+                                        <?php echo htmlspecialchars($row['firstname'] . ' ' . $row['lastname']); ?>
+                                    </div>
+                                    <div class="testi-img">
+                                        <img class="product-img" src="<?php echo htmlspecialchars($row['image'] ?: 'assets/images/default-img.jpg'); ?>" alt="">
+                                    </div>
+                                </div>
+                                <div class="testi-content">
+                                    <p><?php echo htmlspecialchars($row['content']); ?></p>
+                                </div>
+                                <div class="testi-date">
+                                    <p><?php echo date('l, F Y', strtotime($row['created_at'])); ?></p>
+                                </div>
                             </div>
                         </div>
-                        <div class="testi-content">
-                            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting</p>
-                        </div>
-                        <div class="testi-date">
-                            <p>monday, august 2024</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="testimonials">
-                        <div class="testi-name-img">
-                            <div class="testi-name">Stella Larson</div>
-                            <div class="testi-img">
-                                <img class="product-img" src="assets/images/test-img.jpg" alt="">
-                            </div>
-                        </div>
-                        <div class="testi-content">
-                            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting</p>
-                        </div>
-                        <div class="testi-date">
-                            <p>monday, august 2024</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="testimonials">
-                        <div class="testi-name-img">
-                            <div class="testi-name">Stella Larson</div>
-                            <div class="testi-img">
-                                <img class="product-img" src="assets/images/test-img.jpg" alt="">
-                            </div>
-                        </div>
-                        <div class="testi-content">
-                            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting</p>
-                        </div>
-                        <div class="testi-date">
-                            <p>monday, august 2024</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="testimonials">
-                        <div class="testi-name-img">
-                            <div class="testi-name">Stella Larson</div>
-                            <div class="testi-img">
-                                <img class="product-img" src="assets/images/test-img.jpg" alt="">
-                            </div>
-                        </div>
-                        <div class="testi-content">
-                            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries but also the leap into electronic typesetting</p>
-                        </div>
-                        <div class="testi-date">
-                            <p>monday, august 2024</p>
-                        </div>
-                    </div>
-                </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p>No testimonials available.</p>
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </section>
+
 
 <script type="text/javascript" src="assets/js/jquery-3.4.1.min.js"></script>
 
