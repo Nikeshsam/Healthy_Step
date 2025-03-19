@@ -29,7 +29,7 @@
             <!-- Add User Form -->
             <section id="add-user" class="bg-white p-6 rounded-lg shadow-md mb-8">
                 <h2 class="text-xl font-semibold mb-4">Add User</h2>
-                <form action="add_user.php" method="POST" class="space-y-4">
+                <form action="" method="POST" class="space-y-4">
                     <div>
                         <label for="firstname" class="block text-sm font-medium">First Name</label>
                         <input type="text" id="firstname" name="firstname" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
@@ -46,30 +46,39 @@
                         <label for="password" class="block text-sm font-medium">Password</label>
                         <input type="password" id="password" name="password" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
                     </div>
-                    <div>
-                        <label for="phone" class="block text-sm font-medium">Phone</label>
-                        <input type="text" id="phone" name="phone" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
-                    </div>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Add User</button>
+                    <button type="submit" name="add_user" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Add User</button>
                 </form>
             </section>
 
             <!-- Add Product Form -->
             <section id="add-product" class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-xl font-semibold mb-4">Add Product</h2>
-                <form action="add_product.php" method="POST" class="space-y-4">
+                <form action="" method="POST" class="space-y-4">
                     <div>
                         <label for="product_name" class="block text-sm font-medium">Product Name</label>
                         <input type="text" id="product_name" name="product_name" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
                     </div>
                     <div>
-                        <label for="category_id" class="block text-sm font-medium">Category ID</label>
-                        <input type="number" id="category_id" name="category_id" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+                        <label for="category_id" class="block text-sm font-medium">Category</label>
+                        <select id="category_id" name="category_id" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+                            <option value="">Select Category</option>
+                            <?php
+                             include 'DbConnect.php'; // database connection file
+                            // Fetch categories from the database
+                            $result = $conn->query("SELECT id, category_name FROM categories");
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<option value='{$row['id']}'>{$row['category_name']}</option>";
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div>
-                        <label for="subcategory_id" class="block text-sm font-medium">Subcategory ID</label>
-                        <input type="number" id="subcategory_id" name="subcategory_id" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+                        <label for="subcategory_id" class="block text-sm font-medium">Subcategory</label>
+                        <select id="subcategory_id" name="subcategory_id" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
+                            <option value="">Select Subcategory</option>
+                        </select>
                     </div>
+
                     <div>
                         <label for="weight" class="block text-sm font-medium">Weight</label>
                         <input type="text" id="weight" name="weight" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
@@ -86,10 +95,8 @@
                         <label for="image_url" class="block text-sm font-medium">Image URL</label>
                         <input type="text" id="image_url" name="image_url" required class="mt-1 p-2 block w-full border border-gray-300 rounded-md">
                     </div>
-                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Add Product</button>
+                    <button type="submit" name="add_product" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Add Product</button>
                 </form>
             </section>
         </main>
     </div>
-</body>
-</html>
